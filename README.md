@@ -2,7 +2,7 @@
 
 This library provides bases classes for exposing check results to [OhDear](https://ohdear.app) application monitoring service. It follows their [documentation](https://ohdear.app/docs/features/application-health-monitoring) to give you compatible Java classes you can directly format to JSON data and expose through one HTTP endpoint.
 
-It is very similar to [Dropwizard Health Checks](https://metrics.dropwizard.io/4.2.0/manual/healthchecks.html), but it has a little bit more precise information. At least for statuses, as with Dropwizard you'll only get __OK__ or __Not OK__ for choice, while 5 are defined when using OhDear application monitoring.
+It is very similar to [Dropwizard Health Checks](https://metrics.dropwizard.io/4.2.0/manual/healthchecks.html), but it has a little bit more precise information. At least for statuses, as with Dropwizard you'll only get choice for __OK__ or __Not OK__, while 5 different status are defined when using OhDear application monitoring.
 
 ## Dependency
 
@@ -18,7 +18,7 @@ Copy this dependency into your `pom.xml` file.
 
 ## How to use it
 
-First, write one ore more checks by extending the `HealthCheck` class and overriding the `perform()` method. The best practice is to create one check for each part of your app or service you want to monitor, like for example a database connection, a file system, the availability of an external service, etc... 
+First, write one or more checks by extending the `HealthCheck` class and overriding the `perform()` method. The best practice is to create one check for each part of your app or service you want to monitor, like for example a database connection, a file system, the availability of an external service, etc... 
 
 ```java
     public class MyOwnHealthCheck extends HealthCheck {
