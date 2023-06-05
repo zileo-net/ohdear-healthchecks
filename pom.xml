@@ -5,7 +5,7 @@
 	<artifactId>ohdear-healthchecks</artifactId>
 	<packaging>jar</packaging>
 	<groupId>net.zileo</groupId>
-	<version>1.0.0</version>
+	<version>1.0.1-SNAPSHOT</version>
 
 	<name>${project.groupId}:${project.artifactId}</name>
 	<description>***</description>
@@ -31,7 +31,7 @@
 		<connection>scm:git:https://github.com/zileo-net/ohdear-healthchecks.git</connection>
 		<developerConnection>scm:git:https://github.com/zileo-net/ohdear-healthchecks.git</developerConnection>
 		<url>https://github.com/zileo-net/ohdear-healthchecks</url>
-		<tag>ohdear-healthchecks-1.0.0</tag>
+		<tag>HEAD</tag>
 	</scm>
 
 	<properties>
