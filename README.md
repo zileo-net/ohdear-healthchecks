@@ -1,8 +1,8 @@
-[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=zileo-net_ohdear-healthchecks&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=zileo-net_ohdear-healthchecks) [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=zileo-net_ohdear-healthchecks&metric=coverage)](https://sonarcloud.io/summary/new_code?id=zileo-net_ohdear-healthchecks) [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=zileo-net_ohdear-healthchecks&metric=bugs)](https://sonarcloud.io/summary/new_code?id=zileo-net_ohdear-healthchecks) [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=zileo-net_ohdear-healthchecks&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=zileo-net_ohdear-healthchecks) [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=zileo-net_ohdear-healthchecks&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=zileo-net_ohdear-healthchecks) [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=zileo-net_ohdear-healthchecks&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=zileo-net_ohdear-healthchecks)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Latest Stable Version](https://img.shields.io/packagist/v/phplicengine/bitly?label=version)](https://packagist.org/packages/phplicengine/bitly) [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=zileo-net_ohdear-healthchecks&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=zileo-net_ohdear-healthchecks) [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=zileo-net_ohdear-healthchecks&metric=coverage)](https://sonarcloud.io/summary/new_code?id=zileo-net_ohdear-healthchecks) [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=zileo-net_ohdear-healthchecks&metric=bugs)](https://sonarcloud.io/summary/new_code?id=zileo-net_ohdear-healthchecks) [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=zileo-net_ohdear-healthchecks&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=zileo-net_ohdear-healthchecks) [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=zileo-net_ohdear-healthchecks&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=zileo-net_ohdear-healthchecks)
 
 # OhDear HealthChecks
 
-This library provides bases classes for exposing check results to [OhDear](https://ohdear.app) application monitoring service. It follows their [documentation](https://ohdear.app/docs/features/application-health-monitoring) to give you compatible Java classes you can directly format to JSON data and expose through one HTTP endpoint.
+This library provides bases classes for exposing health check results to [OhDear](https://ohdear.app) application monitoring service. It follows their [documentation](https://ohdear.app/docs/features/application-health-monitoring) to give you compatible Java classes you can directly format to JSON data and expose through one HTTP endpoint.
 
 It is very similar to [Dropwizard Health Checks](https://metrics.dropwizard.io/4.2.0/manual/healthchecks.html), but it has a little bit more precise information. At least for statuses, as with Dropwizard you'll only get choice for __OK__ or __Not OK__, while 5 different status are defined when using OhDear application monitoring.
 
@@ -14,7 +14,7 @@ Copy this dependency into your `pom.xml` file.
 <dependency>
     <groupId>net.zileo</groupId>
     <artifactId>ohdear-healthchecks</artifactId>
-    <version>LAST</version>
+    <version>X.X.X</version>
 </dependency>
 ```
 
