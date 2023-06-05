@@ -14,26 +14,24 @@ public final class TestHealthChecks {
 
         public final static String LABEL = "OK Test";
 
-        public final static String DESCRIPTION = "OK Test for Oh Dear monitoring";
-
-        public final static String MESSAGE = "Success";
+        public final static String SUMMARY = "Success";
 
         public OkHealthCheck() {
-            super(NAME, LABEL, List.of("meta", "tag"));
+            super(NAME, LABEL);
         }
 
         @Override
         public HealthCheckResult perform() {
-            return new HealthCheckResult(HealthCheckStatus.OK, MESSAGE, DESCRIPTION, List.of("meta2", "tag2"));
+            return HealthCheckResult.ok(SUMMARY);
         }
 
     }
 
     public static class SkippedHealthCheck extends HealthCheck {
 
-        public final static String NAME = "Skipped";
+        public final static String NAME = "Skipped test";
 
-        public final static String MESSAGE = "Skipped test";
+        public final static String SUMMARY = "Skipped";
 
         public SkippedHealthCheck() {
             super(NAME);
@@ -41,7 +39,7 @@ public final class TestHealthChecks {
 
         @Override
         public HealthCheckResult perform() {
-            return new HealthCheckResult(HealthCheckStatus.SKIPPED, MESSAGE);
+            return HealthCheckResult.skipped(SUMMARY);
         }
 
     }
@@ -52,7 +50,9 @@ public final class TestHealthChecks {
 
         public final static String LABEL = "Warning test";
 
-        public final static String MESSAGE = "Warn";
+        public final static String SUMMARY = "Warn";
+
+        public final static String MESSAGE = "Warning message";
 
         public WarningHealthCheck() {
             super(NAME, LABEL, List.of("meta", "tag"));
@@ -60,7 +60,7 @@ public final class TestHealthChecks {
 
         @Override
         public HealthCheckResult perform() {
-            return new HealthCheckResult(HealthCheckStatus.WARNING, MESSAGE);
+            return HealthCheckResult.warning(SUMMARY, MESSAGE);
         }
 
     }
@@ -90,7 +90,9 @@ public final class TestHealthChecks {
 
         public final static String LABEL = "Failed test";
 
-        public final static String MESSAGE = "Expected error";
+        public final static String SUMMARY = "Expected error";
+
+        public final static String MESSAGE = "Expected error message";
 
         public FailedHealthCheck() {
             super(NAME, LABEL);
@@ -98,9 +100,50 @@ public final class TestHealthChecks {
 
         @Override
         public HealthCheckResult perform() {
-            return new HealthCheckResult(HealthCheckStatus.FAILED, MESSAGE);
+            return HealthCheckResult.failed(SUMMARY, MESSAGE);
         }
 
     }
 
+    public static class CustomCrashedHealthCheck extends HealthCheck {
+
+        public final static String NAME = "Crashed2";
+
+        public final static String LABEL = "Crashed test";
+
+        public final static String SUMMARY = "Expected error";
+
+        public final static String MESSAGE = "Expected error message";
+
+        public CustomCrashedHealthCheck() {
+            super(NAME, LABEL);
+        }
+
+        @Override
+        public HealthCheckResult perform() {
+            return HealthCheckResult.crashed(SUMMARY, MESSAGE);
+        }
+
+    }
+
+    public static class CustomResultHealthCheck extends HealthCheck {
+
+        public final static String NAME = "Custom";
+
+        public final static String LABEL = "Custom Test";
+
+        public final static String SUMMARY = "Custom Test for Oh Dear monitoring";
+
+        public final static String MESSAGE = "Success";
+
+        public CustomResultHealthCheck() {
+            super(NAME, LABEL, List.of("meta", "tag"));
+        }
+
+        @Override
+        public HealthCheckResult perform() {
+            return new HealthCheckResult(HealthCheckStatus.OK, SUMMARY, MESSAGE, List.of("meta2", "tag2"));
+        }
+
+    }
 }

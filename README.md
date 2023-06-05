@@ -31,13 +31,13 @@ First, write one or more checks by extending the `HealthCheck` class and overrid
 
         @Override
         public HealthCheckResult perform() {
-            return new HealthCheckResult(CheckResultStatus.ok, "OK!", "System is fine");
+            return HealthCheckResult.ok("OK!", "System is fine");
         }
 
     }
 ```
 
-The check needs a technical name and a label, that will be displayed in your OhDear dashboard. In the `perform()` method you'll implement how you want to execute your check. You'll return a `HealthCheckResult` object, defining a status, a short summary of that result, and a longer message if needed. Available status are `ok`, `warning`, `failed`, `crashed` and `skipped`. The enum is voluntarily lower case so that you'll not have to manage any translation when formatting it to JSON.
+The check needs a technical name and a label, that will be displayed in your OhDear dashboard. In the `perform()` method you'll implement how you want to execute your check. You'll return a `HealthCheckResult` object, defining a status, a short summary of that result, and a longer message if needed. Available status are `ok`, `warning`, `failed`, `crashed` and `skipped`. Those are available as static builders methods on the `HealthCheckResult` class, or you can use the class constructor.
 
 To execute your checks and get their result, create a `HealthCheckRegistry` object in your application. Register a new instance for each one of your different health checks. Then you'll be able to call the `performAll()`. 
 

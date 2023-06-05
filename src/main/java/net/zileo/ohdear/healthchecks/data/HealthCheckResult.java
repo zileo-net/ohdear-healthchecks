@@ -1,5 +1,6 @@
 package net.zileo.ohdear.healthchecks.data;
 
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,20 +31,12 @@ public class HealthCheckResult {
      */
     private final List<String> metaTags;
 
-    public HealthCheckResult(HealthCheckStatus status, String message) {
-        this(status, message, message);
-    }
-
-    public HealthCheckResult(HealthCheckStatus status, String summary, String message) {
-        this(status, summary, message, new ArrayList<>());
-    }
-
     public HealthCheckResult(HealthCheckStatus status, String summary, String message, List<String> metaTags) {
         super();
         this.status = status;
         this.summary = summary;
         this.message = message;
-        this.metaTags = new ArrayList<>(metaTags);
+        this.metaTags = metaTags != null ? new ArrayList<>(metaTags) : new ArrayList<>();
     }
 
     /**
@@ -72,5 +65,25 @@ public class HealthCheckResult {
      */
     public List<String> getMetaTags() {
         return metaTags;
+    }
+
+    public static HealthCheckResult ok(String summary) {
+        return new HealthCheckResult(HealthCheckStatus.OK, summary, null, null);
+    }
+
+    public static HealthCheckResult skipped(String summary) {
+        return new HealthCheckResult(HealthCheckStatus.SKIPPED, summary, null, null);
+    }
+
+    public static HealthCheckResult warning(String summary, String warning) {
+        return new HealthCheckResult(HealthCheckStatus.WARNING, summary, warning, null);
+    }
+
+    public static HealthCheckResult crashed(String summary, String error) {
+        return new HealthCheckResult(HealthCheckStatus.CRASHED, summary, error, null);
+    }
+
+    public static HealthCheckResult failed(String summary, String error) {
+        return new HealthCheckResult(HealthCheckStatus.FAILED, summary, error, null);
     }
 }

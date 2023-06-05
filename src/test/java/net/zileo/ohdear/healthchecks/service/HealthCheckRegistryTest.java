@@ -18,6 +18,8 @@ import net.zileo.ohdear.healthchecks.TestHealthChecks.FailedHealthCheck;
 import net.zileo.ohdear.healthchecks.TestHealthChecks.OkHealthCheck;
 import net.zileo.ohdear.healthchecks.TestHealthChecks.SkippedHealthCheck;
 import net.zileo.ohdear.healthchecks.TestHealthChecks.WarningHealthCheck;
+import net.zileo.ohdear.healthchecks.TestHealthChecks.CustomCrashedHealthCheck;
+import net.zileo.ohdear.healthchecks.TestHealthChecks.CustomResultHealthCheck;
 import net.zileo.ohdear.healthchecks.api.CheckResult;
 import net.zileo.ohdear.healthchecks.data.HealthCheckStatus;
 import net.zileo.ohdear.healthchecks.api.CheckResultsHolder;
@@ -34,6 +36,8 @@ class HealthCheckRegistryTest {
         registry.register(new TestHealthChecks.WarningHealthCheck());
         registry.register(new TestHealthChecks.FailedHealthCheck());
         registry.register(new TestHealthChecks.CrashedHealthCheck());
+        registry.register(new TestHealthChecks.CustomCrashedHealthCheck());
+        registry.register(new TestHealthChecks.CustomResultHealthCheck());
     }
 
 
@@ -58,13 +62,15 @@ class HealthCheckRegistryTest {
     void testPerformAll() {
         CheckResultsHolder results = registry.performAll();
 
-        assertCheckResults(5, results);
+        assertCheckResults(7, results);
         // Registry should have performed tests in order
         assertOkHealthCheckResult(results.getCheckResults().get(0));
         assertSkippedHealthCheckResult(results.getCheckResults().get(1));
         assertWarningHealthCheckResult(results.getCheckResults().get(2));
         assertFailedHealthCheckResult(results.getCheckResults().get(3));
         assertCrashedHealthCheckResult(results.getCheckResults().get(4));
+        assertCustomCrashedHealthCheckResult(results.getCheckResults().get(5));
+        assertCustomHealthCheckResult(results.getCheckResults().get(6));
     }
 
     @Test
@@ -75,7 +81,7 @@ class HealthCheckRegistryTest {
     }
 
     private void assertOkHealthCheckResult(CheckResult result) {
-        assertResult(result, HealthCheckStatus.OK, OkHealthCheck.NAME, OkHealthCheck.LABEL, OkHealthCheck.MESSAGE, OkHealthCheck.DESCRIPTION, List.of("meta", "tag", "meta2", "tag2"));
+        assertResult(result, HealthCheckStatus.OK, OkHealthCheck.NAME, OkHealthCheck.LABEL, OkHealthCheck.SUMMARY, "", new ArrayList<>());
     }
 
     @Test
@@ -86,7 +92,7 @@ class HealthCheckRegistryTest {
     }
 
     private void assertSkippedHealthCheckResult(CheckResult result) {
-        assertResult(result, HealthCheckStatus.SKIPPED, SkippedHealthCheck.NAME, SkippedHealthCheck.NAME, SkippedHealthCheck.MESSAGE, SkippedHealthCheck.MESSAGE, new ArrayList<>());
+        assertResult(result, HealthCheckStatus.SKIPPED, SkippedHealthCheck.NAME, SkippedHealthCheck.NAME, SkippedHealthCheck.SUMMARY, "", new ArrayList<>());
     }
 
     @Test
@@ -97,7 +103,7 @@ class HealthCheckRegistryTest {
     }
 
     private void assertWarningHealthCheckResult(CheckResult result) {
-        assertResult(result, HealthCheckStatus.WARNING, WarningHealthCheck.NAME, WarningHealthCheck.LABEL, WarningHealthCheck.MESSAGE, WarningHealthCheck.MESSAGE, List.of("meta", "tag"));
+        assertResult(result, HealthCheckStatus.WARNING, WarningHealthCheck.NAME, WarningHealthCheck.LABEL, WarningHealthCheck.SUMMARY, WarningHealthCheck.MESSAGE, List.of("meta", "tag"));
     }
 
     @Test
@@ -108,7 +114,7 @@ class HealthCheckRegistryTest {
     }
 
     private void assertFailedHealthCheckResult(CheckResult result) {
-        assertResult(result, HealthCheckStatus.FAILED, FailedHealthCheck.NAME, FailedHealthCheck.LABEL, FailedHealthCheck.MESSAGE, FailedHealthCheck.MESSAGE, new ArrayList<>());
+        assertResult(result, HealthCheckStatus.FAILED, FailedHealthCheck.NAME, FailedHealthCheck.LABEL, FailedHealthCheck.SUMMARY, FailedHealthCheck.MESSAGE, new ArrayList<>());
     }
 
     @Test
@@ -118,8 +124,30 @@ class HealthCheckRegistryTest {
         assertCrashedHealthCheckResult(results.getCheckResults().get(0));
     }
 
+    private void assertCustomCrashedHealthCheckResult(CheckResult result) {
+        assertResult(result, HealthCheckStatus.CRASHED, CustomCrashedHealthCheck.NAME, CustomCrashedHealthCheck.LABEL, CustomCrashedHealthCheck.SUMMARY, CustomCrashedHealthCheck.MESSAGE, new ArrayList<>());
+    }
+
+    @Test
+    void testCustomCrashedHealthCheck() {
+        CheckResultsHolder results = registry.perform(CrashedHealthCheck.NAME);
+        assertCheckResults(1, results);
+        assertCrashedHealthCheckResult(results.getCheckResults().get(0));
+    }
+
     private void assertCrashedHealthCheckResult(CheckResult result) {
         assertResult(result, HealthCheckStatus.CRASHED, CrashedHealthCheck.NAME, CrashedHealthCheck.LABEL, RuntimeException.class.getSimpleName(), CrashedHealthCheck.MESSAGE, new ArrayList<>());
+    }
+
+    @Test
+    void testCustomHealthCheck() {
+        CheckResultsHolder results = registry.perform(CustomResultHealthCheck.NAME);
+        assertCheckResults(1, results);
+        assertCustomHealthCheckResult(results.getCheckResults().get(0));
+    }
+
+    private void assertCustomHealthCheckResult(CheckResult result) {
+        assertResult(result, HealthCheckStatus.OK, CustomResultHealthCheck.NAME, CustomResultHealthCheck.LABEL, CustomResultHealthCheck.SUMMARY, CustomResultHealthCheck.MESSAGE, List.of("meta", "tag", "meta2", "tag2"));
     }
 
     private void assertCheckResults(int size, CheckResultsHolder results) {

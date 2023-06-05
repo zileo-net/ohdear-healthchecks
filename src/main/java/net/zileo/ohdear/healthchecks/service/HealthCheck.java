@@ -44,7 +44,7 @@ public abstract class HealthCheck {
     /**
      * Core implementation of the health check. Any exception thrown by this method will result in a {@link HealthCheckStatus#FAILED} result.
      */
-    public abstract HealthCheckResult perform();
+    public abstract HealthCheckResult perform() throws Exception;
 
     /**
      * @see HealthCheck#name
