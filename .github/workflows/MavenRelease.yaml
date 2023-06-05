@@ -4,26 +4,27 @@ jobs:
    release:
       runs-on: ubuntu-latest
       steps:
-      -  name: Checkout project
-         uses: actions/checkout@v2
-      -  name: Set up JDK with Maven Central Repository
-         uses: actions/setup-java@v1
-         with:
-            java-version: 11
-      -  name: Java Maven release
-         uses: qcastel/github-actions-maven-release@v1.12.31
-         env:
-            JAVA_HOME: /usr/lib/jvm/java-11-openjdk/
-         with:
-            version-patch: true
-            release-branch-name: main
-            gpg-enabled: true
-            gpg-key-id: ${{secrets.RELEASE_GPG_KEY_ID}}
-            gpg-key: ${{secrets.RELEASE_GPG_KEY}}
-            git-release-bot-name: ${{secrets.RELEASE_USER_NAME}}
-            git-release-bot-email: ${{secrets.RELEASE_USER_EMAIL}}
-            access-token: ${{secrets.RELEASE_GITHUB_TOKEN}}
-            maven-repo-server-id: ossrh
-            maven-repo-server-username: ${{secrets.OSSRH_USERNAME}}
-            maven-repo-server-password: ${{secrets.OSSRH_PASSWORD}}
-            maven-args: -Prelease -DskipTests -Dgpg.keyname=${{secrets.RELEASE_GPG_KEY_ID}} -Dgpg.passphrase=
+         - name: Checkout project
+           uses: actions/checkout@v3
+         - name: Set up JDK 11
+           uses: actions/setup-java@v3
+           with:
+              java-version: 11
+              distribution: 'zulu' # Alternative distribution options are available.
+         - name: Java Maven release
+           uses: qcastel/github-actions-maven-release@v1.12.31
+           env:
+              JAVA_HOME: /usr/lib/jvm/java-11-openjdk/
+           with:
+              version-patch: true
+              release-branch-name: main
+              gpg-enabled: true
+              gpg-key-id: ${{secrets.RELEASE_GPG_KEY_ID}}
+              gpg-key: ${{secrets.RELEASE_GPG_KEY}}
+              git-release-bot-name: ${{secrets.RELEASE_USER_NAME}}
+              git-release-bot-email: ${{secrets.RELEASE_USER_EMAIL}}
+              access-token: ${{secrets.RELEASE_GITHUB_TOKEN}}
+              maven-repo-server-id: ossrh
+              maven-repo-server-username: ${{secrets.OSSRH_USERNAME}}
+              maven-repo-server-password: ${{secrets.OSSRH_PASSWORD}}
+              maven-args: -Prelease -DskipTests -Dgpg.keyname=${{secrets.RELEASE_GPG_KEY_ID}} -Dgpg.passphrase=
