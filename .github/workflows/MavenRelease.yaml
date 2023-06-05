@@ -12,6 +12,8 @@ jobs:
             java-version: 11
       -  name: Java Maven release
          uses: qcastel/github-actions-maven-release@v1.12.31
+         env:
+            JAVA_HOME: /usr/lib/jvm/java-11-openjdk/
          with:
             release-branch-name: main
             gpg-enabled: true
