@@ -5,13 +5,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import net.zileo.ohdear.healthchecks.data.HealthCheckStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.platform.engine.support.descriptor.FileSystemSource;
-
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class CheckResultStatusTest {
+public class CheckResultsTest {
 
     ObjectMapper objectMapper;
 

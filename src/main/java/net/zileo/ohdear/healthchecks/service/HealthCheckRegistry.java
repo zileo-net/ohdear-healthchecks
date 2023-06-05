@@ -13,25 +13,10 @@ import net.zileo.ohdear.healthchecks.data.HealthCheckResult;
 
 public class HealthCheckRegistry {
 
-    private boolean parallelRun;
-
     private final Map<String, HealthCheck> healthChecks;
 
     public HealthCheckRegistry() {
-        this(false);
-    }
-
-    public HealthCheckRegistry(boolean parallelRun) {
         this.healthChecks = new LinkedHashMap<>();
-        this.parallelRun = parallelRun;
-    }
-
-    public boolean isParallelRun() {
-        return parallelRun;
-    }
-
-    public void setParallelRun(boolean parallelRun) {
-        this.parallelRun = parallelRun;
     }
 
     public Map<String, HealthCheck> getHealthChecks() {
@@ -52,11 +37,7 @@ public class HealthCheckRegistry {
 
     public CheckResults performAll() {
         CheckResults results = new CheckResults();
-        if (this.parallelRun) {
-            this.healthChecks.values().parallelStream().forEach(check -> results.addCheckResult(perform(check)));
-        } else {
-            this.healthChecks.forEach((key, check) -> results.addCheckResult(perform(check)));
-        }
+        this.healthChecks.forEach((key, check) -> results.addCheckResult(perform(check)));
         results.setFinishedDate(new Date());
         return results;
     }

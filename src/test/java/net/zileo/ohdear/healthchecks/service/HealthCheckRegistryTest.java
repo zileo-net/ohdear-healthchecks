@@ -36,9 +36,26 @@ class HealthCheckRegistryTest {
         registry.register(new TestHealthChecks.CrashedHealthCheck());
     }
 
+
+    @Test
+    void testRegistration() {
+        OkHealthCheck check = new TestHealthChecks.OkHealthCheck();
+
+        HealthCheckRegistry r = new HealthCheckRegistry();
+        assertTrue( r.list().isEmpty());
+        
+        r.register(check);
+        assertEquals(1, r.list().size());
+        assertEquals(check, r.list().stream().findFirst().orElseThrow());
+        assertEquals(1, r.getHealthChecks().size());
+        assertEquals(check, r.getHealthChecks().get(check.getName()));
+
+        r.unregister(check.getName());
+        assertTrue( r.list().isEmpty());
+    }
+
     @Test
     void testPerformAll() {
-        assertFalse(registry.isParallelRun());
         CheckResults results = registry.performAll();
 
         assertCheckResults(5, results);
@@ -48,20 +65,6 @@ class HealthCheckRegistryTest {
         assertWarningHealthCheckResult(results.getCheckResults().get(2));
         assertFailedHealthCheckResult(results.getCheckResults().get(3));
         assertCrashedHealthCheckResult(results.getCheckResults().get(4));
-    }
-
-    @Test
-    void testPerformAllParallelized() {
-        registry.setParallelRun(true);
-        assertTrue(registry.isParallelRun());
-
-        CheckResults results = registry.performAll();
-        assertCheckResults(5, results);
-        assertOkHealthCheckResult(results.getCheckResults().stream().filter(c -> c.getName().equals(OkHealthCheck.NAME)).findFirst().orElseThrow());
-        assertSkippedHealthCheckResult(results.getCheckResults().stream().filter(c -> c.getName().equals(SkippedHealthCheck.NAME)).findFirst().orElseThrow());
-        assertWarningHealthCheckResult(results.getCheckResults().stream().filter(c -> c.getName().equals(WarningHealthCheck.NAME)).findFirst().orElseThrow());
-        assertFailedHealthCheckResult(results.getCheckResults().stream().filter(c -> c.getName().equals(FailedHealthCheck.NAME)).findFirst().orElseThrow());
-        assertCrashedHealthCheckResult(results.getCheckResults().stream().filter(c -> c.getName().equals(CrashedHealthCheck.NAME)).findFirst().orElseThrow());
     }
 
     @Test

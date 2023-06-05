@@ -41,12 +41,8 @@ public class CheckResult {
         super();
     }
 
-    public CheckResult(String name) {
-        this(name, name);
-    }
-
     public CheckResult(String name, String label) {
-        super();
+        this();
         this.setName(name);
         this.setLabel(label);
     }
