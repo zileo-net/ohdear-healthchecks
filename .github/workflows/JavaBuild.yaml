@@ -1,4 +1,4 @@
-name: SonarCloud
+name: Java Build
 on:
    push:
       branches:
