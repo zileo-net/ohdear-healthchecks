@@ -128,7 +128,7 @@ class HealthCheckRegistryTest {
     }
 
     private void assertResult(CheckResult result, HealthCheckStatus status, String name, String label, String shortSummary, String notificationMessage, List<String> meta) {
-        assertEquals(status, result.getStatus());
+        assertEquals(status.toLowerCase(), result.getStatus());
         assertEquals(name, result.getName());
         assertEquals(label, result.getLabel());
         assertEquals(shortSummary, result.getShortSummary());
