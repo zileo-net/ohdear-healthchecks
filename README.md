@@ -1,4 +1,4 @@
-[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=zileo-net_ohdear-healthchecks&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=zileo-net_ohdear-healthchecks)[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=zileo-net_ohdear-healthchecks&metric=coverage)](https://sonarcloud.io/summary/new_code?id=zileo-net_ohdear-healthchecks)[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=zileo-net_ohdear-healthchecks&metric=bugs)](https://sonarcloud.io/summary/new_code?id=zileo-net_ohdear-healthchecks)[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=zileo-net_ohdear-healthchecks&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=zileo-net_ohdear-healthchecks)[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=zileo-net_ohdear-healthchecks&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=zileo-net_ohdear-healthchecks)[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=zileo-net_ohdear-healthchecks&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=zileo-net_ohdear-healthchecks)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=zileo-net_ohdear-healthchecks&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=zileo-net_ohdear-healthchecks) [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=zileo-net_ohdear-healthchecks&metric=coverage)](https://sonarcloud.io/summary/new_code?id=zileo-net_ohdear-healthchecks) [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=zileo-net_ohdear-healthchecks&metric=bugs)](https://sonarcloud.io/summary/new_code?id=zileo-net_ohdear-healthchecks) [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=zileo-net_ohdear-healthchecks&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=zileo-net_ohdear-healthchecks) [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=zileo-net_ohdear-healthchecks&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=zileo-net_ohdear-healthchecks) [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=zileo-net_ohdear-healthchecks&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=zileo-net_ohdear-healthchecks)
 
 # OhDear HealthChecks
 
@@ -44,7 +44,7 @@ To execute your checks and get their result, create a `HealthCheckRegistry` obje
 ```java
     HealthCheckRegistry registry = new HealthCheckRegistry();
     registry.register(new MyOwnHealthCheck());
-    CheckResults results = registry.performAll();
+    CheckResultsHolder results = registry.performAll();
     return results; // Format it to JSON
 ```
 
@@ -62,12 +62,12 @@ You already implemented health checks with Dropwizard library and want to reuse 
     @Inject
     private HealthCheckRegistry registry;
 
-    public CheckResults getCheckResults() {
-        CheckResults results = new CheckResults();
+    public CheckResultsHolder getCheckResults() {
+        CheckResultsHolder results = new CheckResults();
 
         for (Entry<String, Result> entry : registry.runHealthChecks().entrySet()) {
             CheckResult result = new CheckResult(entry.getKey());
-            result.setStatus(entry.getValue().isHealthy() ? CheckResultStatus.ok : CheckResultStatus.failed);
+            result.setStatus(entry.getValue().isHealthy() ? CheckResultStatus.OK : CheckResultStatus.FAILED);
            
             if (!entry.getValue().isHealthy()) {
                 result.setShortSummary(entry.getValue().getMessage());

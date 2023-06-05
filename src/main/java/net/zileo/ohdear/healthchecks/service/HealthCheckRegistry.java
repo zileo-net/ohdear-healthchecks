@@ -8,7 +8,7 @@ import java.util.stream.Stream;
 
 import net.zileo.ohdear.healthchecks.api.CheckResult;
 import net.zileo.ohdear.healthchecks.data.HealthCheckStatus;
-import net.zileo.ohdear.healthchecks.api.CheckResults;
+import net.zileo.ohdear.healthchecks.api.CheckResultsHolder;
 import net.zileo.ohdear.healthchecks.data.HealthCheckResult;
 
 public class HealthCheckRegistry {
@@ -35,15 +35,15 @@ public class HealthCheckRegistry {
         this.healthChecks.remove(healthCheckName);
     }
 
-    public CheckResults performAll() {
-        CheckResults results = new CheckResults();
+    public CheckResultsHolder performAll() {
+        CheckResultsHolder results = new CheckResultsHolder();
         this.healthChecks.forEach((key, check) -> results.addCheckResult(perform(check)));
         results.setFinishedDate(new Date());
         return results;
     }
 
-    public CheckResults perform(String healthCheckName) {
-        CheckResults results = new CheckResults();
+    public CheckResultsHolder perform(String healthCheckName) {
+        CheckResultsHolder results = new CheckResultsHolder();
         results.addCheckResult(perform(this.healthChecks.get(healthCheckName)));
         results.setFinishedDate(new Date());
         return results;
@@ -55,13 +55,13 @@ public class HealthCheckRegistry {
         try {
             HealthCheckResult r = healthCheck.perform();
             result.setNotificationMessage(r.getMessage());
-            result.setStatus(r.getStatus().toLowerCase());
+            result.setStatus(r.getStatus());
             result.setShortSummary(r.getSummary());
             result.setMeta(Stream.concat(healthCheck.getMetaTags().stream(), r.getMetaTags().stream()).toArray(String[]::new));
-        } catch (Throwable t) {
-            result.setNotificationMessage(t.getLocalizedMessage());
-            result.setStatus(HealthCheckStatus.CRASHED.toLowerCase());
-            result.setShortSummary(t.getClass().getSimpleName());
+        } catch (Exception e) {
+            result.setNotificationMessage(e.getLocalizedMessage());
+            result.setStatus(HealthCheckStatus.CRASHED);
+            result.setShortSummary(e.getClass().getSimpleName());
             result.setMeta(healthCheck.getMetaTags().toArray(String[]::new));
         }
 

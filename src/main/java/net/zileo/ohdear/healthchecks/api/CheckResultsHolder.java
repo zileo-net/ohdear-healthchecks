@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Collection of health check results, as defined per OhDear documentation.
  */
-public class CheckResults {
+public class CheckResultsHolder {
 
     /**
      * Not required by OhDear : run timestamp as a Date object.
@@ -24,7 +24,7 @@ public class CheckResults {
      */
     private List<CheckResult> checkResults;
 
-    public CheckResults() {
+    public CheckResultsHolder() {
         this.checkResults = new ArrayList<>();
     }
 
@@ -34,28 +34,28 @@ public class CheckResults {
     }
 
     /**
-     * @see CheckResults#finishedDate
+     * @see CheckResultsHolder#finishedDate
      */
     public Date getFinishedDate() {
         return finishedDate;
     }
 
     /**
-     * @see CheckResults#finishedAt
+     * @see CheckResultsHolder#finishedAt
      */
     public Long getFinishedAt() {
         return finishedAt;
     }
 
     /**
-     * @see CheckResults#checkResults
+     * @see CheckResultsHolder#checkResults
      */
     public List<CheckResult> getCheckResults() {
         return checkResults;
     }
 
     /**
-     * @see CheckResults#checkResults
+     * @see CheckResultsHolder#checkResults
      */
     public void addCheckResult(CheckResult result) {
         checkResults.add(result);

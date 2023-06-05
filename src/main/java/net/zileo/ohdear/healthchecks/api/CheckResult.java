@@ -131,4 +131,10 @@ public class CheckResult {
         this.status = status;
     }
 
+    /**
+     * @see CheckResult#status
+     */
+    public void setStatus(HealthCheckStatus status) {
+        this.setStatus(status.toLowerCase());
+    }
 }

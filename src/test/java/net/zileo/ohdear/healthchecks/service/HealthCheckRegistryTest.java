@@ -20,7 +20,7 @@ import net.zileo.ohdear.healthchecks.TestHealthChecks.SkippedHealthCheck;
 import net.zileo.ohdear.healthchecks.TestHealthChecks.WarningHealthCheck;
 import net.zileo.ohdear.healthchecks.api.CheckResult;
 import net.zileo.ohdear.healthchecks.data.HealthCheckStatus;
-import net.zileo.ohdear.healthchecks.api.CheckResults;
+import net.zileo.ohdear.healthchecks.api.CheckResultsHolder;
 
 class HealthCheckRegistryTest {
 
@@ -43,7 +43,7 @@ class HealthCheckRegistryTest {
 
         HealthCheckRegistry r = new HealthCheckRegistry();
         assertTrue( r.list().isEmpty());
-        
+
         r.register(check);
         assertEquals(1, r.list().size());
         assertEquals(check, r.list().stream().findFirst().orElseThrow());
@@ -56,7 +56,7 @@ class HealthCheckRegistryTest {
 
     @Test
     void testPerformAll() {
-        CheckResults results = registry.performAll();
+        CheckResultsHolder results = registry.performAll();
 
         assertCheckResults(5, results);
         // Registry should have performed tests in order
@@ -69,7 +69,7 @@ class HealthCheckRegistryTest {
 
     @Test
     void testOkHealthCheck() {
-        CheckResults results = registry.perform(OkHealthCheck.NAME);
+        CheckResultsHolder results = registry.perform(OkHealthCheck.NAME);
         assertCheckResults(1, results);
         assertOkHealthCheckResult(results.getCheckResults().get(0));
     }
@@ -80,7 +80,7 @@ class HealthCheckRegistryTest {
 
     @Test
     void testSkippedHealthCheck() {
-        CheckResults results = registry.perform(SkippedHealthCheck.NAME);
+        CheckResultsHolder results = registry.perform(SkippedHealthCheck.NAME);
         assertCheckResults(1, results);
         assertSkippedHealthCheckResult(results.getCheckResults().get(0));
     }
@@ -91,7 +91,7 @@ class HealthCheckRegistryTest {
 
     @Test
     void testWarningHealthCheck() {
-        CheckResults results = registry.perform(WarningHealthCheck.NAME);
+        CheckResultsHolder results = registry.perform(WarningHealthCheck.NAME);
         assertCheckResults(1, results);
         assertWarningHealthCheckResult(results.getCheckResults().get(0));
     }
@@ -102,7 +102,7 @@ class HealthCheckRegistryTest {
 
     @Test
     void testFailedHealthCheck() {
-        CheckResults results = registry.perform(FailedHealthCheck.NAME);
+        CheckResultsHolder results = registry.perform(FailedHealthCheck.NAME);
         assertCheckResults(1, results);
         assertFailedHealthCheckResult(results.getCheckResults().get(0));
     }
@@ -113,7 +113,7 @@ class HealthCheckRegistryTest {
 
     @Test
     void testCrashedHealthCheck() {
-        CheckResults results = registry.perform(CrashedHealthCheck.NAME);
+        CheckResultsHolder results = registry.perform(CrashedHealthCheck.NAME);
         assertCheckResults(1, results);
         assertCrashedHealthCheckResult(results.getCheckResults().get(0));
     }
@@ -122,7 +122,7 @@ class HealthCheckRegistryTest {
         assertResult(result, HealthCheckStatus.CRASHED, CrashedHealthCheck.NAME, CrashedHealthCheck.LABEL, RuntimeException.class.getSimpleName(), CrashedHealthCheck.MESSAGE, new ArrayList<>());
     }
 
-    private void assertCheckResults(int size, CheckResults results) {
+    private void assertCheckResults(int size, CheckResultsHolder results) {
         assertNotNull(results);
         assertNotNull(results.getFinishedAt());
         assertNotNull(results.getFinishedDate());

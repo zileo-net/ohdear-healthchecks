@@ -5,10 +5,10 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-public class CheckResultTest {
+class CheckResultTest {
 
     @Test
-    public void testGettersAndSetters() {
+    void testGettersAndSetters() {
         CheckResult result = new CheckResult();
         result.setName("name");
         assertEquals("name", result.getName());
@@ -26,7 +26,7 @@ public class CheckResultTest {
     }
 
     @Test
-    public void testAvoidNullValues() {
+    void testAvoidNullValues() {
         CheckResult result = new CheckResult();
         result.setName(null);
         assertEquals("", result.getName());

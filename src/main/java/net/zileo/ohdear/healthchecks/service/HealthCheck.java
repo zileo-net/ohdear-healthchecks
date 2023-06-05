@@ -26,15 +26,15 @@ public abstract class HealthCheck {
      */
     private final List<String> metaTags;
 
-    public HealthCheck(String name) {
+    protected HealthCheck(String name) {
         this(name, name);
     }
 
-    public HealthCheck(String name, String label) {
+    protected HealthCheck(String name, String label) {
         this(name, label, new ArrayList<>());
     }
 
-    public HealthCheck(String name, String label, List<String> metaTags) {
+    protected HealthCheck(String name, String label, List<String> metaTags) {
         super();
         this.name = name;
         this.label = label;

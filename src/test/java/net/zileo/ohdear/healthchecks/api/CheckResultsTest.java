@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class CheckResultsTest {
+class CheckResultsTest {
 
     ObjectMapper objectMapper;
 
@@ -23,12 +23,12 @@ public class CheckResultsTest {
         CheckResult result = new CheckResult();
         result.setName("json-test");
         result.setLabel("JSON test");
-        result.setStatus(HealthCheckStatus.WARNING.toLowerCase());
+        result.setStatus(HealthCheckStatus.WARNING);
         result.setShortSummary("Warning summary");
         result.setNotificationMessage("This is a warning message");
         result.setMeta(new String[] { "meta", "tag"});
                 
-        CheckResults results = new CheckResults();
+        CheckResultsHolder results = new CheckResultsHolder();
         results.addCheckResult(result);
         
         String json = objectMapper.writeValueAsString(results);
