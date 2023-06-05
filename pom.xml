@@ -7,9 +7,9 @@
 	<groupId>net.zileo</groupId>
 	<version>1.0.1-SNAPSHOT</version>
 
-	<name>${project.groupId}:${project.artifactId}</name>
-	<description>***</description>
-	<url>https://zileo-net.github.io/ohdear-healthchecks/</url>
+	<name>OhDear Health Checks</name>
+	<description>Bases classes for exposing health check results to OhDear application monitoring service.</description>
+	<url>https://github.com/zileo-net/ohdear-healthchecks</url>
 
 	<licenses>
 		<license>
