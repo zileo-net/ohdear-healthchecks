@@ -50,10 +50,6 @@ To execute your checks and get their result, create a `HealthCheckRegistry` obje
 
 That registry should of course be referenced as a singleton object, with the health checks registration being executed at startup time, depending on which Java framework your application is based on.
 
-## Advanced options
-
-By default, the `HealthCheckRegistry` executes your checks one by one. You can pass `true` as the first constructor argument to execute them all at a time, using a _parallelized stream_.
-
 ## Using with DropWizard Health Checks
 
 You already implemented health checks with Dropwizard library and want to reuse them with OhDear? Feel free to reuse and adapt below code, acting as a bridge between Dropwizard results and this library.
