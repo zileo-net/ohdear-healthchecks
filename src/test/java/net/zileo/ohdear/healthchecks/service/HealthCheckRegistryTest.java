@@ -19,7 +19,7 @@ import net.zileo.ohdear.healthchecks.TestHealthChecks.OkHealthCheck;
 import net.zileo.ohdear.healthchecks.TestHealthChecks.SkippedHealthCheck;
 import net.zileo.ohdear.healthchecks.TestHealthChecks.WarningHealthCheck;
 import net.zileo.ohdear.healthchecks.api.CheckResult;
-import net.zileo.ohdear.healthchecks.api.CheckResultStatus;
+import net.zileo.ohdear.healthchecks.data.HealthCheckStatus;
 import net.zileo.ohdear.healthchecks.api.CheckResults;
 
 class HealthCheckRegistryTest {
@@ -72,7 +72,7 @@ class HealthCheckRegistryTest {
     }
 
     private void assertOkHealthCheckResult(CheckResult result) {
-        assertResult(result, CheckResultStatus.ok, OkHealthCheck.NAME, OkHealthCheck.LABEL, OkHealthCheck.MESSAGE, OkHealthCheck.DESCRIPTION, List.of("meta", "tag", "meta2", "tag2"));
+        assertResult(result, HealthCheckStatus.OK, OkHealthCheck.NAME, OkHealthCheck.LABEL, OkHealthCheck.MESSAGE, OkHealthCheck.DESCRIPTION, List.of("meta", "tag", "meta2", "tag2"));
     }
 
     @Test
@@ -83,7 +83,7 @@ class HealthCheckRegistryTest {
     }
 
     private void assertSkippedHealthCheckResult(CheckResult result) {
-        assertResult(result, CheckResultStatus.skipped, SkippedHealthCheck.NAME, SkippedHealthCheck.NAME, SkippedHealthCheck.MESSAGE, SkippedHealthCheck.MESSAGE, new ArrayList<>());
+        assertResult(result, HealthCheckStatus.SKIPPED, SkippedHealthCheck.NAME, SkippedHealthCheck.NAME, SkippedHealthCheck.MESSAGE, SkippedHealthCheck.MESSAGE, new ArrayList<>());
     }
 
     @Test
@@ -94,7 +94,7 @@ class HealthCheckRegistryTest {
     }
 
     private void assertWarningHealthCheckResult(CheckResult result) {
-        assertResult(result, CheckResultStatus.warning, WarningHealthCheck.NAME, WarningHealthCheck.LABEL, WarningHealthCheck.MESSAGE, WarningHealthCheck.MESSAGE, List.of("meta", "tag"));
+        assertResult(result, HealthCheckStatus.WARNING, WarningHealthCheck.NAME, WarningHealthCheck.LABEL, WarningHealthCheck.MESSAGE, WarningHealthCheck.MESSAGE, List.of("meta", "tag"));
     }
 
     @Test
@@ -105,7 +105,7 @@ class HealthCheckRegistryTest {
     }
 
     private void assertFailedHealthCheckResult(CheckResult result) {
-        assertResult(result, CheckResultStatus.failed, FailedHealthCheck.NAME, FailedHealthCheck.LABEL, FailedHealthCheck.MESSAGE, FailedHealthCheck.MESSAGE, new ArrayList<>());
+        assertResult(result, HealthCheckStatus.FAILED, FailedHealthCheck.NAME, FailedHealthCheck.LABEL, FailedHealthCheck.MESSAGE, FailedHealthCheck.MESSAGE, new ArrayList<>());
     }
 
     @Test
@@ -116,7 +116,7 @@ class HealthCheckRegistryTest {
     }
 
     private void assertCrashedHealthCheckResult(CheckResult result) {
-        assertResult(result, CheckResultStatus.crashed, CrashedHealthCheck.NAME, CrashedHealthCheck.LABEL, RuntimeException.class.getSimpleName(), CrashedHealthCheck.MESSAGE, new ArrayList<>());
+        assertResult(result, HealthCheckStatus.CRASHED, CrashedHealthCheck.NAME, CrashedHealthCheck.LABEL, RuntimeException.class.getSimpleName(), CrashedHealthCheck.MESSAGE, new ArrayList<>());
     }
 
     private void assertCheckResults(int size, CheckResults results) {
@@ -127,7 +127,7 @@ class HealthCheckRegistryTest {
         assertEquals(size, results.getCheckResults().size());
     }
 
-    private void assertResult(CheckResult result, CheckResultStatus status, String name, String label, String shortSummary, String notificationMessage, List<String> meta) {
+    private void assertResult(CheckResult result, HealthCheckStatus status, String name, String label, String shortSummary, String notificationMessage, List<String> meta) {
         assertEquals(status, result.getStatus());
         assertEquals(name, result.getName());
         assertEquals(label, result.getLabel());

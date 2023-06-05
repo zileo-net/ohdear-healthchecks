@@ -1,33 +1,37 @@
-package net.zileo.ohdear.healthchecks.api;
+package net.zileo.ohdear.healthchecks.data;
 
 /**
  * Health check result status, as defined per OhDear documentation.
  */
-public enum CheckResultStatus {
+public enum HealthCheckStatus {
 
     /**
      * <i>the check ran ok</i>
      */
-    ok,
+    OK,
 
     /**
      * <i>the check is closed to failing</i>
      */
-    warning,
+    WARNING,
 
     /**
      * <i>the check did fail</i>
      */
-    failed,
+    FAILED,
 
     /**
      *<i>something went wrong running the check itself</i>
      */
-    crashed,
+    CRASHED,
 
     /**
      * <i>the check wasn't performed at all</i>
      */
-    skipped;
+    SKIPPED;
+
+    public String toLowerCase() {
+        return this.name().toLowerCase();
+    }
 
 }

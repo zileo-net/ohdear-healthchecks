@@ -2,7 +2,7 @@ package net.zileo.ohdear.healthchecks;
 
 import java.util.List;
 
-import net.zileo.ohdear.healthchecks.api.CheckResultStatus;
+import net.zileo.ohdear.healthchecks.data.HealthCheckStatus;
 import net.zileo.ohdear.healthchecks.data.HealthCheckResult;
 import net.zileo.ohdear.healthchecks.service.HealthCheck;
 
@@ -24,7 +24,7 @@ public final class TestHealthChecks {
 
         @Override
         public HealthCheckResult perform() {
-            return new HealthCheckResult(CheckResultStatus.ok, MESSAGE, DESCRIPTION, List.of("meta2", "tag2"));
+            return new HealthCheckResult(HealthCheckStatus.OK, MESSAGE, DESCRIPTION, List.of("meta2", "tag2"));
         }
 
     }
@@ -41,7 +41,7 @@ public final class TestHealthChecks {
 
         @Override
         public HealthCheckResult perform() {
-            return new HealthCheckResult(CheckResultStatus.skipped, MESSAGE);
+            return new HealthCheckResult(HealthCheckStatus.SKIPPED, MESSAGE);
         }
 
     }
@@ -60,7 +60,7 @@ public final class TestHealthChecks {
 
         @Override
         public HealthCheckResult perform() {
-            return new HealthCheckResult(CheckResultStatus.warning, MESSAGE);
+            return new HealthCheckResult(HealthCheckStatus.WARNING, MESSAGE);
         }
 
     }
@@ -98,7 +98,7 @@ public final class TestHealthChecks {
 
         @Override
         public HealthCheckResult perform() {
-            return new HealthCheckResult(CheckResultStatus.failed, MESSAGE);
+            return new HealthCheckResult(HealthCheckStatus.FAILED, MESSAGE);
         }
 
     }

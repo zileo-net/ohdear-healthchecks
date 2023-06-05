@@ -1,5 +1,7 @@
 package net.zileo.ohdear.healthchecks.api;
 
+import net.zileo.ohdear.healthchecks.data.HealthCheckStatus;
+
 /**
  * Health check result, as defined per OhDear documentation.
  */
@@ -33,7 +35,7 @@ public class CheckResult {
     /**
      * <i>A string that indicates what the result of the health check is. Check below for possible values.</i>
      */
-    private CheckResultStatus status = CheckResultStatus.skipped;
+    private String status = HealthCheckStatus.SKIPPED.toLowerCase();
 
     public CheckResult() {
         super();
@@ -122,14 +124,14 @@ public class CheckResult {
     /**
      * @see CheckResult#status
      */
-    public CheckResultStatus getStatus() {
+    public String getStatus() {
         return status;
     }
 
     /**
      * @see CheckResult#status
      */
-    public void setStatus(CheckResultStatus status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 

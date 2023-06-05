@@ -3,6 +3,7 @@ package net.zileo.ohdear.healthchecks.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.zileo.ohdear.healthchecks.data.HealthCheckStatus;
 import net.zileo.ohdear.healthchecks.data.HealthCheckResult;
 
 /**
@@ -41,7 +42,7 @@ public abstract class HealthCheck {
     }
 
     /**
-     * Core implementation of the health check. Any exception thrown by this method will result in a {@link net.zileo.ohdear.healthchecks.api.CheckResultStatus#failed} result.
+     * Core implementation of the health check. Any exception thrown by this method will result in a {@link HealthCheckStatus#FAILED} result.
      */
     public abstract HealthCheckResult perform();
 
