@@ -10,10 +10,10 @@ jobs:
          uses: actions/setup-java@v1
          with:
             java-version: 11
-      -  name: Release & Deploy
-         uses: qcastel/github-actions-maven-release@v1.11.2
+      -  name: Java Maven release
+         uses: qcastel/github-actions-maven-release@v1.12.31
          with:
-            release-branch-name: master
+            release-branch-name: main
             gpg-enabled: true
             gpg-key-id: ${{secrets.RELEASE_GPG_KEY_ID}}
             gpg-key: ${{secrets.RELEASE_GPG_KEY}}
