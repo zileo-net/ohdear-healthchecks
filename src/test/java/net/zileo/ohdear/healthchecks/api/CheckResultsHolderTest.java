@@ -6,9 +6,11 @@ import net.zileo.ohdear.healthchecks.data.HealthCheckStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Calendar;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class CheckResultsTest {
+class CheckResultsHolderTest {
 
     ObjectMapper objectMapper;
 
@@ -39,4 +41,14 @@ class CheckResultsTest {
         assertEquals(expectedJson, json);
     }
 
+    @Test
+    void testSetFinishedDate() throws JsonProcessingException {
+        Calendar cal = Calendar.getInstance();
+        cal.set(2023,Calendar.MAY, 5, 16, 15,00);
+
+        CheckResultsHolder results = new CheckResultsHolder();
+        results.setFinishedDate(cal.getTime());
+
+        assertEquals(1683296100L, results.getFinishedAt());
+    }
 }

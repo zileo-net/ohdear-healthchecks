@@ -30,7 +30,7 @@ public class CheckResultsHolder {
 
     public void setFinishedDate(Date finishedDate) {
         this.finishedDate = finishedDate;
-        this.finishedAt = finishedDate.getTime();
+        this.finishedAt = finishedDate.getTime() / 1000;
     }
 
     /**
