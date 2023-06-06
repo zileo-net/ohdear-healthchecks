@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -46,7 +47,7 @@ class HealthCheckRegistryTest {
         OkHealthCheck check = new TestHealthChecks.OkHealthCheck();
 
         HealthCheckRegistry r = new HealthCheckRegistry();
-        assertTrue( r.list().isEmpty());
+        assertTrue(r.list().isEmpty());
 
         r.register(check);
         assertEquals(1, r.list().size());
@@ -55,7 +56,20 @@ class HealthCheckRegistryTest {
         assertEquals(check, r.getHealthChecks().get(check.getName()));
 
         r.unregister(check.getName());
-        assertTrue( r.list().isEmpty());
+        assertTrue(r.list().isEmpty());
+    }
+
+    @Test
+    void testDoubleRegistration() {
+        OkHealthCheck check = new TestHealthChecks.OkHealthCheck();
+
+        IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            HealthCheckRegistry r = new HealthCheckRegistry();
+            r.register(check);
+            r.register(check);
+        });
+
+        Assertions.assertTrue(exception.getMessage().contains(check.getName()));
     }
 
     @Test

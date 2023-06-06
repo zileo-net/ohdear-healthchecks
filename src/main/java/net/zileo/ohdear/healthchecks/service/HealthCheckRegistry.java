@@ -27,7 +27,10 @@ public class HealthCheckRegistry {
         return this.healthChecks.values();
     }
 
-    public void register(HealthCheck healthCheck) {
+    public void register(HealthCheck healthCheck) throws IllegalArgumentException {
+        if (this.healthChecks.containsKey(healthCheck.getName())) {
+            throw new IllegalArgumentException("A health check with name '" + healthCheck.getName() + "' has already been registered");
+        }
         this.healthChecks.put(healthCheck.getName(), healthCheck);
     }
 
