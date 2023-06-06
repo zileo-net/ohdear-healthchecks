@@ -18,7 +18,7 @@ class CheckResultTest {
         assertEquals("notification", result.getNotificationMessage());
         result.setShortSummary("short");
         assertEquals("short", result.getShortSummary());
-        result.setMeta(new String[] { "1", "2"});
+        result.setMeta(new String[]{"1", "2"});
         assertNotNull(result.getMeta());
         assertEquals(2, result.getMeta().length);
         assertEquals("1", result.getMeta()[0]);

@@ -26,15 +26,15 @@ class CheckResultsTest {
         result.setStatus(HealthCheckStatus.WARNING);
         result.setShortSummary("Warning summary");
         result.setNotificationMessage("This is a warning message");
-        result.setMeta(new String[] { "meta", "tag"});
-                
+        result.setMeta(new String[]{"meta", "tag"});
+
         CheckResultsHolder results = new CheckResultsHolder();
         results.addCheckResult(result);
-        
+
         String json = objectMapper.writeValueAsString(results);
         String expectedJson = "{\"finishedDate\":null,\"finishedAt\":null,\"checkResults\":" +
-        "[{\"name\":\"json-test\",\"label\":\"JSON test\",\"shortSummary\":\"Warning summary\",\"meta\":[\"meta\",\"tag\"]," +
-        "\"notificationMessage\":\"This is a warning message\",\"status\":\"warning\"}]}";
+                "[{\"name\":\"json-test\",\"label\":\"JSON test\",\"shortSummary\":\"Warning summary\",\"meta\":[\"meta\",\"tag\"]," +
+                "\"notificationMessage\":\"This is a warning message\",\"status\":\"warning\"}]}";
 
         assertEquals(expectedJson, json);
     }

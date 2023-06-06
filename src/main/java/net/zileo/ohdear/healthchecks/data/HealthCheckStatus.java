@@ -21,7 +21,7 @@ public enum HealthCheckStatus {
     FAILED,
 
     /**
-     *<i>something went wrong running the check itself</i>
+     * <i>something went wrong running the check itself</i>
      */
     CRASHED,
 

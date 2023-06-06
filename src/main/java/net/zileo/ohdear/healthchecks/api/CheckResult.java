@@ -25,7 +25,7 @@ public class CheckResult {
     /**
      * <i>An array with keys and values that contain extra information about the check. You can send a maximum of 20 items in this array.</i>
      */
-    private String[] meta = new String[] {};
+    private String[] meta = new String[]{};
 
     /**
      * <i>When a check results in warning or error, we'll use this string in the notification that we'll send to you. we'll also display it at the application health checks list.</i>
@@ -100,7 +100,7 @@ public class CheckResult {
      * @see CheckResult#meta
      */
     public void setMeta(String[] meta) {
-        this.meta = meta != null ? meta : new String[] {};
+        this.meta = meta != null ? meta : new String[]{};
     }
 
     /**
