@@ -18,6 +18,8 @@ Copy this dependency into your `pom.xml` file.
 </dependency>
 ```
 
+Version 1.0.1 requires Java 11, version 1.1.0 requires Java 21. No major differences between both (only one more `NullPointerException` pre-check).
+
 ## How to use it
 
 First, write one or more checks by extending the `HealthCheck` class and overriding the `perform()` method. The best practice is to create one check for each part of your app or service you want to monitor, like for example a database connection, a file system, the availability of an external service, etc... 
