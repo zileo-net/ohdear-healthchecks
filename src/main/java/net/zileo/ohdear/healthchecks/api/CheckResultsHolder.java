@@ -22,7 +22,7 @@ public class CheckResultsHolder {
     /**
      * <i>An array with check results. This array can have 50 items maximum.</i>
      */
-    private List<CheckResult> checkResults;
+    private final List<CheckResult> checkResults;
 
     public CheckResultsHolder() {
         this.checkResults = new ArrayList<>();
