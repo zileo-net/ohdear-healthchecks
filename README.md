@@ -14,11 +14,11 @@ Copy this dependency into your `pom.xml` file.
 <dependency>
     <groupId>net.zileo</groupId>
     <artifactId>ohdear-healthchecks</artifactId>
-    <version>1.1.0</version>
+    <version>1.1.2</version>
 </dependency>
 ```
 
-Version 1.0.3 requires Java 11, version 1.1.0 requires Java 21. No major differences between both (only one more `NullPointerException` pre-check).
+Version 1.0.3 requires Java 11, version 1.1.2 requires Java 21. No major differences between both (only one more `NullPointerException` pre-check).
 
 ## How to use it
 
