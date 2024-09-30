@@ -1,29 +1,24 @@
 package net.zileo.ohdear.healthchecks.service;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
 import net.zileo.ohdear.healthchecks.TestHealthChecks;
 import net.zileo.ohdear.healthchecks.TestHealthChecks.CrashedHealthCheck;
+import net.zileo.ohdear.healthchecks.TestHealthChecks.CustomCrashedHealthCheck;
+import net.zileo.ohdear.healthchecks.TestHealthChecks.CustomResultHealthCheck;
 import net.zileo.ohdear.healthchecks.TestHealthChecks.FailedHealthCheck;
 import net.zileo.ohdear.healthchecks.TestHealthChecks.OkHealthCheck;
 import net.zileo.ohdear.healthchecks.TestHealthChecks.SkippedHealthCheck;
 import net.zileo.ohdear.healthchecks.TestHealthChecks.WarningHealthCheck;
-import net.zileo.ohdear.healthchecks.TestHealthChecks.CustomCrashedHealthCheck;
-import net.zileo.ohdear.healthchecks.TestHealthChecks.CustomResultHealthCheck;
 import net.zileo.ohdear.healthchecks.api.CheckResult;
-import net.zileo.ohdear.healthchecks.data.HealthCheckStatus;
 import net.zileo.ohdear.healthchecks.api.CheckResultsHolder;
+import net.zileo.ohdear.healthchecks.data.HealthCheckStatus;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class HealthCheckRegistryTest {
 
@@ -40,7 +35,6 @@ class HealthCheckRegistryTest {
         registry.register(new TestHealthChecks.CustomCrashedHealthCheck());
         registry.register(new TestHealthChecks.CustomResultHealthCheck());
     }
-
 
     @Test
     void testRegistration() {
@@ -63,11 +57,9 @@ class HealthCheckRegistryTest {
     void testDoubleRegistration() {
         OkHealthCheck check = new TestHealthChecks.OkHealthCheck();
 
-        IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            HealthCheckRegistry r = new HealthCheckRegistry();
-            r.register(check);
-            r.register(check);
-        });
+        HealthCheckRegistry r = new HealthCheckRegistry();
+        r.register(check);
+        IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class, () -> r.register(check));
 
         Assertions.assertTrue(exception.getMessage().contains(check.getName()));
     }
@@ -91,7 +83,7 @@ class HealthCheckRegistryTest {
     void testOkHealthCheck() {
         CheckResultsHolder results = registry.perform(OkHealthCheck.NAME);
         assertCheckResults(1, results);
-        assertOkHealthCheckResult(results.getCheckResults().get(0));
+        assertOkHealthCheckResult(results.getCheckResults().getFirst());
     }
 
     private void assertOkHealthCheckResult(CheckResult result) {
@@ -102,7 +94,7 @@ class HealthCheckRegistryTest {
     void testSkippedHealthCheck() {
         CheckResultsHolder results = registry.perform(SkippedHealthCheck.NAME);
         assertCheckResults(1, results);
-        assertSkippedHealthCheckResult(results.getCheckResults().get(0));
+        assertSkippedHealthCheckResult(results.getCheckResults().getFirst());
     }
 
     private void assertSkippedHealthCheckResult(CheckResult result) {
@@ -113,7 +105,7 @@ class HealthCheckRegistryTest {
     void testWarningHealthCheck() {
         CheckResultsHolder results = registry.perform(WarningHealthCheck.NAME);
         assertCheckResults(1, results);
-        assertWarningHealthCheckResult(results.getCheckResults().get(0));
+        assertWarningHealthCheckResult(results.getCheckResults().getFirst());
     }
 
     private void assertWarningHealthCheckResult(CheckResult result) {
@@ -124,7 +116,7 @@ class HealthCheckRegistryTest {
     void testFailedHealthCheck() {
         CheckResultsHolder results = registry.perform(FailedHealthCheck.NAME);
         assertCheckResults(1, results);
-        assertFailedHealthCheckResult(results.getCheckResults().get(0));
+        assertFailedHealthCheckResult(results.getCheckResults().getFirst());
     }
 
     private void assertFailedHealthCheckResult(CheckResult result) {
@@ -135,7 +127,7 @@ class HealthCheckRegistryTest {
     void testCrashedHealthCheck() {
         CheckResultsHolder results = registry.perform(CrashedHealthCheck.NAME);
         assertCheckResults(1, results);
-        assertCrashedHealthCheckResult(results.getCheckResults().get(0));
+        assertCrashedHealthCheckResult(results.getCheckResults().getFirst());
     }
 
     private void assertCustomCrashedHealthCheckResult(CheckResult result) {
@@ -146,7 +138,7 @@ class HealthCheckRegistryTest {
     void testCustomCrashedHealthCheck() {
         CheckResultsHolder results = registry.perform(CrashedHealthCheck.NAME);
         assertCheckResults(1, results);
-        assertCrashedHealthCheckResult(results.getCheckResults().get(0));
+        assertCrashedHealthCheckResult(results.getCheckResults().getFirst());
     }
 
     private void assertCrashedHealthCheckResult(CheckResult result) {
@@ -157,17 +149,15 @@ class HealthCheckRegistryTest {
     void testCustomHealthCheck() {
         CheckResultsHolder results = registry.perform(CustomResultHealthCheck.NAME);
         assertCheckResults(1, results);
-        assertCustomHealthCheckResult(results.getCheckResults().get(0));
+        assertCustomHealthCheckResult(results.getCheckResults().getFirst());
     }
 
     @Test
     void testMissingRegisteredHealthCheck() {
         final String name = "NotExistingHealthCheck";
 
-        IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            HealthCheckRegistry r = new HealthCheckRegistry();
-            r.perform("NotExistingHealthCheck");
-        });
+        HealthCheckRegistry r = new HealthCheckRegistry();
+        IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class, () -> r.perform("NotExistingHealthCheck"));
 
         Assertions.assertTrue(exception.getMessage().contains(name));
     }
