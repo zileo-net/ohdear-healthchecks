@@ -10,11 +10,11 @@ public final class TestHealthChecks {
 
     public static class OkHealthCheck extends HealthCheck {
 
-        public final static String NAME = "OK";
+        public static final String NAME = "OK";
 
-        public final static String LABEL = "OK Test";
+        public static final String LABEL = "OK Test";
 
-        public final static String SUMMARY = "Success";
+        public static final String SUMMARY = "Success";
 
         public OkHealthCheck() {
             super(NAME, LABEL);
@@ -29,9 +29,9 @@ public final class TestHealthChecks {
 
     public static class SkippedHealthCheck extends HealthCheck {
 
-        public final static String NAME = "Skipped test";
+        public static final String NAME = "Skipped test";
 
-        public final static String SUMMARY = "Skipped";
+        public static final String SUMMARY = "Skipped";
 
         public SkippedHealthCheck() {
             super(NAME);
@@ -46,13 +46,13 @@ public final class TestHealthChecks {
 
     public static class WarningHealthCheck extends HealthCheck {
 
-        public final static String NAME = "Warning";
+        public static final String NAME = "Warning";
 
-        public final static String LABEL = "Warning test";
+        public static final String LABEL = "Warning test";
 
-        public final static String SUMMARY = "Warn";
+        public static final String SUMMARY = "Warn";
 
-        public final static String MESSAGE = "Warning message";
+        public static final String MESSAGE = "Warning message";
 
         public WarningHealthCheck() {
             super(NAME, LABEL, List.of("meta", "tag"));
@@ -67,11 +67,11 @@ public final class TestHealthChecks {
 
     public static class CrashedHealthCheck extends HealthCheck {
 
-        public final static String NAME = "Crashed";
+        public static final String NAME = "Crashed";
 
-        public final static String LABEL = "Crashed test";
+        public static final String LABEL = "Crashed test";
 
-        public final static String MESSAGE = "Throws RuntimeException during perform()";
+        public static final String MESSAGE = "Throws RuntimeException during perform()";
 
         public CrashedHealthCheck() {
             super(NAME, LABEL);
@@ -86,13 +86,13 @@ public final class TestHealthChecks {
 
     public static class FailedHealthCheck extends HealthCheck {
 
-        public final static String NAME = "Failed";
+        public static final String NAME = "Failed";
 
-        public final static String LABEL = "Failed test";
+        public static final String LABEL = "Failed test";
 
-        public final static String SUMMARY = "Expected error";
+        public static final String SUMMARY = "Expected error";
 
-        public final static String MESSAGE = "Expected error message";
+        public static final String MESSAGE = "Expected error message";
 
         public FailedHealthCheck() {
             super(NAME, LABEL);
@@ -107,13 +107,13 @@ public final class TestHealthChecks {
 
     public static class CustomCrashedHealthCheck extends HealthCheck {
 
-        public final static String NAME = "Crashed2";
+        public static final String NAME = "Crashed2";
 
-        public final static String LABEL = "Crashed test";
+        public static final String LABEL = "Crashed test";
 
-        public final static String SUMMARY = "Expected error";
+        public static final String SUMMARY = "Expected error";
 
-        public final static String MESSAGE = "Expected error message";
+        public static final String MESSAGE = "Expected error message";
 
         public CustomCrashedHealthCheck() {
             super(NAME, LABEL);
@@ -128,13 +128,13 @@ public final class TestHealthChecks {
 
     public static class CustomResultHealthCheck extends HealthCheck {
 
-        public final static String NAME = "Custom";
+        public static final String NAME = "Custom";
 
-        public final static String LABEL = "Custom Test";
+        public static final String LABEL = "Custom Test";
 
-        public final static String SUMMARY = "Custom Test for Oh Dear monitoring";
+        public static final String SUMMARY = "Custom Test for Oh Dear monitoring";
 
-        public final static String MESSAGE = "Success";
+        public static final String MESSAGE = "Success";
 
         public CustomResultHealthCheck() {
             super(NAME, LABEL, List.of("meta", "tag"));
