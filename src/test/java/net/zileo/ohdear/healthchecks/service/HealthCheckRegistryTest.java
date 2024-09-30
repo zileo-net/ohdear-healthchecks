@@ -136,9 +136,9 @@ class HealthCheckRegistryTest {
 
     @Test
     void testCustomCrashedHealthCheck() {
-        CheckResultsHolder results = registry.perform(CrashedHealthCheck.NAME);
+        CheckResultsHolder results = registry.perform(CustomCrashedHealthCheck.NAME);
         assertCheckResults(1, results);
-        assertCrashedHealthCheckResult(results.getCheckResults().getFirst());
+        assertCustomCrashedHealthCheckResult(results.getCheckResults().getFirst());
     }
 
     private void assertCrashedHealthCheckResult(CheckResult result) {
