@@ -160,6 +160,18 @@ class HealthCheckRegistryTest {
         assertCustomHealthCheckResult(results.getCheckResults().get(0));
     }
 
+    @Test
+    void testMissingRegisteredHealthCheck() {
+        final String name = "NotExistingHealthCheck";
+
+        IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            HealthCheckRegistry r = new HealthCheckRegistry();
+            r.perform("NotExistingHealthCheck");
+        });
+
+        Assertions.assertTrue(exception.getMessage().contains(name));
+    }
+
     private void assertCustomHealthCheckResult(CheckResult result) {
         assertResult(result, HealthCheckStatus.OK, CustomResultHealthCheck.NAME, CustomResultHealthCheck.LABEL, CustomResultHealthCheck.SUMMARY, CustomResultHealthCheck.MESSAGE, List.of("meta", "tag", "meta2", "tag2"));
     }

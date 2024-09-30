@@ -49,6 +49,9 @@ public class HealthCheckRegistry {
     }
 
     public CheckResultsHolder perform(String healthCheckName) {
+        if (!this.healthChecks.containsKey(healthCheckName)) {
+            throw new IllegalArgumentException("No health check with name '" + healthCheckName + "' has been registered");
+        }
         CheckResultsHolder results = new CheckResultsHolder();
         results.addCheckResult(perform(this.healthChecks.get(healthCheckName)));
         results.setFinishedDate(new Date());
