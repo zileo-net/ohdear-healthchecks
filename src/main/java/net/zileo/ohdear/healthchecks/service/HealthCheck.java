@@ -1,10 +1,10 @@
 package net.zileo.ohdear.healthchecks.service;
 
+import net.zileo.ohdear.healthchecks.data.HealthCheckResult;
+import net.zileo.ohdear.healthchecks.data.HealthCheckStatus;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import net.zileo.ohdear.healthchecks.data.HealthCheckStatus;
-import net.zileo.ohdear.healthchecks.data.HealthCheckResult;
 
 /**
  * Abstract class that should be extended and added to the {@link HealthCheckRegistry} to perform any health check of your application.

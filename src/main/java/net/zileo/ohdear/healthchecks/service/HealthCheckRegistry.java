@@ -1,15 +1,15 @@
 package net.zileo.ohdear.healthchecks.service;
 
+import net.zileo.ohdear.healthchecks.api.CheckResult;
+import net.zileo.ohdear.healthchecks.api.CheckResultsHolder;
+import net.zileo.ohdear.healthchecks.data.HealthCheckResult;
+import net.zileo.ohdear.healthchecks.data.HealthCheckStatus;
+
 import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.stream.Stream;
-
-import net.zileo.ohdear.healthchecks.api.CheckResult;
-import net.zileo.ohdear.healthchecks.data.HealthCheckStatus;
-import net.zileo.ohdear.healthchecks.api.CheckResultsHolder;
-import net.zileo.ohdear.healthchecks.data.HealthCheckResult;
 
 public class HealthCheckRegistry {
 
@@ -28,7 +28,8 @@ public class HealthCheckRegistry {
     }
 
     /**
-     * @throws IllegalArgumentException if a health check with the same name already exists
+     * @throws IllegalArgumentException
+     *         if a health check with the same name already exists
      */
     public void register(HealthCheck healthCheck) throws IllegalArgumentException {
         if (this.healthChecks.containsKey(healthCheck.getName())) {

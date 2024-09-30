@@ -1,10 +1,9 @@
 package net.zileo.ohdear.healthchecks.data;
 
-import java.sql.Array;
+import net.zileo.ohdear.healthchecks.service.HealthCheck;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import net.zileo.ohdear.healthchecks.service.HealthCheck;
 
 /**
  * Internal object for returning the result of your {@link HealthCheck#perform()} operation.

@@ -6,7 +6,6 @@ import net.zileo.ohdear.healthchecks.data.HealthCheckStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.TimeZone;
 
@@ -30,7 +29,7 @@ class CheckResultsHolderTest {
         result.setStatus(HealthCheckStatus.WARNING);
         result.setShortSummary("Warning summary");
         result.setNotificationMessage("This is a warning message");
-        result.setMeta(new String[]{"meta", "tag"});
+        result.setMeta(new String[] { "meta", "tag" });
 
         CheckResultsHolder results = new CheckResultsHolder();
         results.addCheckResult(result);
@@ -46,7 +45,7 @@ class CheckResultsHolderTest {
     @Test
     void testSetFinishedDate() throws JsonProcessingException {
         Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        cal.set(2023,Calendar.MAY, 5, 16, 15,00);
+        cal.set(2023, Calendar.MAY, 5, 16, 15, 00);
 
         CheckResultsHolder results = new CheckResultsHolder();
         results.setFinishedDate(cal.getTime());

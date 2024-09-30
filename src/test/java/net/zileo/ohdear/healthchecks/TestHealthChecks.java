@@ -1,10 +1,10 @@
 package net.zileo.ohdear.healthchecks;
 
-import java.util.List;
-
-import net.zileo.ohdear.healthchecks.data.HealthCheckStatus;
 import net.zileo.ohdear.healthchecks.data.HealthCheckResult;
+import net.zileo.ohdear.healthchecks.data.HealthCheckStatus;
 import net.zileo.ohdear.healthchecks.service.HealthCheck;
+
+import java.util.List;
 
 public final class TestHealthChecks {
 
