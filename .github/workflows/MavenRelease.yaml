@@ -24,7 +24,5 @@ jobs:
               git-release-bot-name: ${{secrets.RELEASE_USER_NAME}}
               git-release-bot-email: ${{secrets.RELEASE_USER_EMAIL}}
               access-token: ${{secrets.RELEASE_GITHUB_TOKEN}}
-              maven-repo-server-id: ossrh
-              maven-repo-server-username: ${{secrets.OSSRH_USERNAME}}
-              maven-repo-server-password: ${{secrets.OSSRH_PASSWORD}}
+              maven-servers: ${{ secrets.MVN_REPO_SERVERS }}
               maven-args: -Prelease -DskipTests -Dgpg.keyname=${{secrets.RELEASE_GPG_KEY_ID}} -Dgpg.passphrase=
