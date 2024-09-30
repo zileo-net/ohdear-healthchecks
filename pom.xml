@@ -5,7 +5,7 @@
 	<artifactId>ohdear-healthchecks</artifactId>
 	<packaging>jar</packaging>
 	<groupId>net.zileo</groupId>
-	<version>1.1.1-SNAPSHOT</version>
+	<version>1.1.2-SNAPSHOT</version>
 
 	<name>OhDear Health Checks</name>
 	<description>Bases classes for exposing health check results to OhDear application monitoring service.</description>
