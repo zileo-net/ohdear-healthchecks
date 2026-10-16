@@ -1,5 +1,7 @@
 package net.zileo.ohdear.healthchecks.data;
 
+import java.util.Locale;
+
 /**
  * Health check result status, as defined per OhDear documentation.
  */
@@ -31,7 +33,8 @@ public enum HealthCheckStatus {
     SKIPPED;
 
     public String toLowerCase() {
-        return this.name().toLowerCase();
+        // Locale.ROOT : en locale turque, le I de SKIPPED/WARNING casserait le libellé ASCII attendu par Oh Dear.
+        return this.name().toLowerCase(Locale.ROOT);
     }
 
 }
