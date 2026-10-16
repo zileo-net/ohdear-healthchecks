@@ -1,4 +1,4 @@
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=zileo-net_ohdear-healthchecks&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=zileo-net_ohdear-healthchecks) [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=zileo-net_ohdear-healthchecks&metric=coverage)](https://sonarcloud.io/summary/new_code?id=zileo-net_ohdear-healthchecks) [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=zileo-net_ohdear-healthchecks&metric=bugs)](https://sonarcloud.io/summary/new_code?id=zileo-net_ohdear-healthchecks) [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=zileo-net_ohdear-healthchecks&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=zileo-net_ohdear-healthchecks) [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=zileo-net_ohdear-healthchecks&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=zileo-net_ohdear-healthchecks)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 # OhDear HealthChecks
 
@@ -77,22 +77,22 @@ You already implemented health checks with Dropwizard library and want to reuse 
     private HealthCheckRegistry registry;
 
     public CheckResultsHolder getCheckResults() {
-        CheckResultsHolder results = new CheckResults();
+        CheckResultsHolder results = new CheckResultsHolder();
 
         for (Entry<String, Result> entry : registry.runHealthChecks().entrySet()) {
-            CheckResult result = new CheckResult(entry.getKey());
-            result.setStatus(entry.getValue().isHealthy() ? CheckResultStatus.OK : CheckResultStatus.FAILED);
-           
+            CheckResult result = new CheckResult(entry.getKey(), entry.getKey());
+            result.setStatus(entry.getValue().isHealthy() ? HealthCheckStatus.OK : HealthCheckStatus.FAILED);
+
             if (!entry.getValue().isHealthy()) {
                 result.setShortSummary(entry.getValue().getMessage());
                 result.setNotificationMessage(entry.getValue().getMessage());
             }
-           
-            results.checkResults.add(result);
+
+            results.addCheckResult(result);
         }
 
         results.setFinishedDate(new Date());
-        return data;
+        return results;
     }
 ```
 
