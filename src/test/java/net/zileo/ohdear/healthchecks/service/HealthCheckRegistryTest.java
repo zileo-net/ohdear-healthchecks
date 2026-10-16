@@ -16,6 +16,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -180,7 +181,20 @@ class HealthCheckRegistryTest {
         assertEquals(label, result.getLabel());
         assertEquals(shortSummary, result.getShortSummary());
         assertEquals(notificationMessage, result.getNotificationMessage());
-        assertArrayEquals(meta.toArray(new String[meta.size()]), result.getMeta());
+        String[] actual = result.getMeta();
+        assertTrue(actual.length >= 2);
+        assertEquals("durationMs", actual[actual.length - 2]);
+        assertDoesNotThrow(() -> Long.parseLong(actual[actual.length - 1]));
+        assertArrayEquals(meta.toArray(new String[0]), Arrays.copyOf(actual, actual.length - 2));
+    }
+
+    @Test
+    void testDurationIsMeasuredForEveryCheck() {
+        for (CheckResult result : registry.performAll().getCheckResults()) {
+            String[] meta = result.getMeta();
+            assertEquals("durationMs", meta[meta.length - 2], result.getName());
+            assertTrue(Long.parseLong(meta[meta.length - 1]) >= 0);
+        }
     }
 
 }

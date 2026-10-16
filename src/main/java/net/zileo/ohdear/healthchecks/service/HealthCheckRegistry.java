@@ -5,6 +5,7 @@ import net.zileo.ohdear.healthchecks.api.CheckResultsHolder;
 import net.zileo.ohdear.healthchecks.data.HealthCheckResult;
 import net.zileo.ohdear.healthchecks.data.HealthCheckStatus;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedHashMap;
@@ -61,6 +62,7 @@ public class HealthCheckRegistry {
 
     private CheckResult perform(HealthCheck healthCheck) {
         CheckResult result = new CheckResult(healthCheck.getName(), healthCheck.getLabel());
+        long startNanos = System.nanoTime();
 
         try {
             HealthCheckResult r = healthCheck.perform();
@@ -73,9 +75,18 @@ public class HealthCheckRegistry {
             result.setStatus(HealthCheckStatus.CRASHED);
             result.setShortSummary(e.getClass().getSimpleName());
             result.setMeta(healthCheck.getMetaTags().toArray(String[]::new));
+        } finally {
+            result.setMeta(withDurationMeta(result.getMeta(), (System.nanoTime() - startNanos) / 1_000_000L));
         }
 
         return result;
+    }
+
+    private static String[] withDurationMeta(String[] meta, long durationMs) {
+        String[] extended = Arrays.copyOf(meta, meta.length + 2);
+        extended[meta.length] = "durationMs";
+        extended[meta.length + 1] = String.valueOf(durationMs);
+        return extended;
     }
 
 }
