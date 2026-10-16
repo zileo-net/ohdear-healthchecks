@@ -5,7 +5,7 @@
 	<artifactId>ohdear-healthchecks</artifactId>
 	<packaging>jar</packaging>
 	<groupId>net.zileo</groupId>
-	<version>1.1.4-SNAPSHOT</version>
+	<version>1.1.3-SNAPSHOT</version>
 
 	<name>OhDear Health Checks</name>
 	<description>Bases classes for exposing health check results to OhDear application monitoring service.</description>
@@ -188,12 +188,21 @@
 						</executions>
 					</plugin>
 					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-deploy-plugin</artifactId>
+						<configuration>
+							<!-- central-publishing-maven-plugin assure l'upload vers le Central Portal ; le deploy par défaut échouerait faute de <repository> de release. -->
+							<skip>true</skip>
+						</configuration>
+					</plugin>
+					<plugin>
 						<groupId>org.sonatype.central</groupId>
 						<artifactId>central-publishing-maven-plugin</artifactId>
 						<version>0.6.0</version>
 						<extensions>true</extensions>
 						<configuration>
 							<publishingServerId>central</publishingServerId>
+							<autoPublish>true</autoPublish>
 						</configuration>
 					</plugin>
 				</plugins>
