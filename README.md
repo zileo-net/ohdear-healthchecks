@@ -14,11 +14,11 @@ Copy this dependency into your `pom.xml` file.
 <dependency>
     <groupId>net.zileo</groupId>
     <artifactId>ohdear-healthchecks</artifactId>
-    <version>1.1.2</version>
+    <version>1.1.3</version>
 </dependency>
 ```
 
-Version 1.0.3 requires Java 11, version 1.1.2 requires Java 21. No major differences between both (only one more `NullPointerException` pre-check).
+Version 1.0.3 requires Java 11, versions 1.1.x require Java 21.
 
 ## How to use it
 
@@ -51,6 +51,22 @@ To execute your checks and get their result, create a `HealthCheckRegistry` obje
 ```
 
 That registry should of course be referenced as a singleton object, with the health checks registration being executed at startup time, depending on which Java framework your application is based on.
+
+Every result carries a `durationMs` meta tag with the time that check took.
+
+## Bounding slow checks
+
+`performAll()` runs checks sequentially on the calling thread, so a single hanging check freezes the whole snapshot. Pass a `Duration` to cap each check individually; one that exceeds it is interrupted and reported as `failed`.
+
+```java
+    CheckResultsHolder results = registry.performAll(Duration.ofSeconds(5));
+```
+
+Checks still run one after another (not in parallel), which keeps shared resources — connection pools, thread-bound context — from being hit concurrently. When your checks rely on such context, use the `performAll(Duration, UnaryOperator<Runnable>)` overload: the decorator re-establishes that context on each worker thread.
+
+```java
+    registry.performAll(Duration.ofSeconds(5), runnable -> () -> withTenant(tenant, runnable));
+```
 
 ## Using with DropWizard Health Checks
 

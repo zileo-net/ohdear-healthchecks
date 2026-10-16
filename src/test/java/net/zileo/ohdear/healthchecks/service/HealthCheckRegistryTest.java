@@ -15,9 +15,14 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import net.zileo.ohdear.healthchecks.data.HealthCheckResult;
+import net.zileo.ohdear.healthchecks.service.HealthCheck;
+
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.UnaryOperator;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -194,6 +199,72 @@ class HealthCheckRegistryTest {
             String[] meta = result.getMeta();
             assertEquals("durationMs", meta[meta.length - 2], result.getName());
             assertTrue(Long.parseLong(meta[meta.length - 1]) >= 0);
+        }
+    }
+
+    @Test
+    void testTimeoutFlagsSlowCheckAsFailedAndKeepsFastOnes() {
+        HealthCheckRegistry r = new HealthCheckRegistry();
+        r.register(new TestHealthChecks.OkHealthCheck());
+        r.register(new SleepingHealthCheck(500));
+
+        List<CheckResult> results = r.performAll(Duration.ofMillis(100)).getCheckResults();
+
+        assertEquals(HealthCheckStatus.OK.toLowerCase(), results.get(0).getStatus());
+        assertEquals(HealthCheckStatus.FAILED.toLowerCase(), results.get(1).getStatus());
+        assertEquals("Timed out", results.get(1).getShortSummary());
+        assertEquals("durationMs", results.get(1).getMeta()[results.get(1).getMeta().length - 2]);
+    }
+
+    @Test
+    void testTimeoutDecoratorPropagatesContextToTheWorkerThread() {
+        ThreadLocal<String> context = new ThreadLocal<>();
+        HealthCheckRegistry r = new HealthCheckRegistry();
+        r.register(new ContextReadingHealthCheck(context));
+
+        UnaryOperator<Runnable> decorator = runnable -> () -> {
+            context.set("tenant-1");
+            try {
+                runnable.run();
+            } finally {
+                context.remove();
+            }
+        };
+
+        CheckResult result = r.performAll(Duration.ofSeconds(2), decorator).getCheckResults().getFirst();
+
+        assertEquals(HealthCheckStatus.OK.toLowerCase(), result.getStatus());
+        assertEquals("tenant-1", result.getShortSummary());
+    }
+
+    private static class SleepingHealthCheck extends HealthCheck {
+
+        private final long millis;
+
+        SleepingHealthCheck(long millis) {
+            super("sleeping");
+            this.millis = millis;
+        }
+
+        @Override
+        public HealthCheckResult perform() throws Exception {
+            Thread.sleep(millis);
+            return HealthCheckResult.ok("done");
+        }
+    }
+
+    private static class ContextReadingHealthCheck extends HealthCheck {
+
+        private final ThreadLocal<String> context;
+
+        ContextReadingHealthCheck(ThreadLocal<String> context) {
+            super("context");
+            this.context = context;
+        }
+
+        @Override
+        public HealthCheckResult perform() {
+            return HealthCheckResult.ok(String.valueOf(context.get()));
         }
     }
 
