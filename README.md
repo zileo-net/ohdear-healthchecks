@@ -54,6 +54,8 @@ That registry should of course be referenced as a singleton object, with the hea
 
 Every result carries a `durationMs` meta tag with the time that check took.
 
+Any exception thrown by a `perform()` method is caught and reported as `crashed`. Its notification message holds the exception's cause chain (`type: message`, one `Caused by:` line per cause) rather than a full stack trace, so it stays readable in a notification.
+
 ## Bounding slow checks
 
 `performAll()` runs checks sequentially on the calling thread, so a single hanging check freezes the whole snapshot. Pass a `Duration` to cap each check individually; one that exceeds it is interrupted and reported as `failed`.

@@ -148,7 +148,15 @@ class HealthCheckRegistryTest {
     }
 
     private void assertCrashedHealthCheckResult(CheckResult result) {
-        assertResult(result, HealthCheckStatus.CRASHED, CrashedHealthCheck.NAME, CrashedHealthCheck.LABEL, RuntimeException.class.getSimpleName(), CrashedHealthCheck.MESSAGE, new ArrayList<>());
+        assertEquals(HealthCheckStatus.CRASHED.toLowerCase(), result.getStatus());
+        assertEquals(CrashedHealthCheck.NAME, result.getName());
+        assertEquals(CrashedHealthCheck.LABEL, result.getLabel());
+        assertEquals(RuntimeException.class.getSimpleName(), result.getShortSummary());
+        assertTrue(result.getNotificationMessage().startsWith(RuntimeException.class.getName() + ": " + CrashedHealthCheck.MESSAGE));
+        String[] meta = result.getMeta();
+        assertEquals(2, meta.length);
+        assertEquals("durationMs", meta[0]);
+        assertDoesNotThrow(() -> Long.parseLong(meta[1]));
     }
 
     @Test
